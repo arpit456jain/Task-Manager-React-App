@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Label, FormGroup, Input, Button, Container } from 'reactstrap'
-
+import axios from 'axios';
 function AddTask() {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
@@ -17,6 +17,23 @@ function AddTask() {
     // Send the data to the database or perform further actions
     console.log("Title:", title);
     console.log("Description:", desc);
+    const url = `https://8tdgrcf0cc.execute-api.ap-south-1.amazonaws.com/default/z-alpha_api`
+  
+
+  const payload = {
+    "queryload" : `INSERT into arpit_testing.task_manager (title,descr) values('${title}','${desc}')`
+    } 
+    
+
+    axios.post(url, JSON.stringify(payload))
+      .then(response => {
+        console.log(response); // Make sure response.data is already a JSON object
+
+      })
+      .catch(error => {
+        console.error(error);
+      })
+
 
     // Reset the form after adding the task
     setTitle("");
