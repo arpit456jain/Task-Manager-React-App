@@ -47,7 +47,7 @@ function AllTasks()
                     <Task key={item.id} task={item} FetchData={FetchData}></Task>
                     </div>
             ))
-            ) : ("no")
+            ) : (<h1>No Tasks yet , please add a new one...</h1>)
         }
         </div>
 

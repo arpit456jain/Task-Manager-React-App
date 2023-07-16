@@ -1,13 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Label, FormGroup, Input, Button, Container } from 'reactstrap'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
-function AddTask() {
-  const navigate = useNavigate(); // React Router's useNavigate hook
+const queryParameters = new URLSearchParams(window.location.search);
+const id = queryParameters.get("id");
+function EditTask() {
+const navigate = useNavigate(); // React Router's useNavigate hook
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+  const [taskExist , setTaskExist] = useState(false);
+
+  
+  useEffect(()=>{
+    
+    const url = `https://8tdgrcf0cc.execute-api.ap-south-1.amazonaws.com/default/z-alpha_api`
+      
+        const payload = {
+          "queryload" : `select * from arpit_testing.task_manager where id = ${id};`
+          } 
+          
+          axios.post(url, JSON.stringify(payload))
+            .then(response => {
+            //   console.log(response.data[0]); // Make sure response.data is already a JSON object
+            if(response.data.length>=1)
+            {
+                setTitle(response.data[0].title);
+              setDesc(response.data[0].descr)
+              setTaskExist(true);
+            }
+              
+            })
+            .catch(error => {
+              console.error(error);
+            })
+  },[])
+
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -17,7 +45,7 @@ function AddTask() {
     setDesc(event.target.value);
   };
 
-  const handleAddTask = () => {
+  const handleEditTask = () => {
     // Send the data to the database or perform further actions
     console.log("Title:", title);
     console.log("Description:", desc);
@@ -25,27 +53,22 @@ function AddTask() {
   
 
   const payload = {
-    "queryload" : `INSERT into arpit_testing.task_manager (title,descr) values('${title}','${desc}')`
+    "queryload" : `update arpit_testing.task_manager set title='${title}', descr='${desc}' where id=${id};`
     } 
     
 
     axios.post(url, JSON.stringify(payload))
       .then(response => {
         console.log(response); // Make sure response.data is already a JSON object
-         // Delay the redirect by 2 seconds
+        toast.success("Task Edited Successfully!!");
+        //  Delay the redirect by 2 seconds
          setTimeout(() => {
-          navigate(`/allTasks`); // Redirect to the desired path
-        }, 2000);
-        toast.success("Task Added Successfully!!")
+            navigate(`/allTasks`); // Redirect to the desired path
+          }, 2000);
       })
       .catch(error => {
         console.error(error);
       })
-
-
-    // Reset the form after adding the task
-    setTitle("");
-    setDesc("");
   };
 
   const handleClear = () => {
@@ -57,8 +80,9 @@ function AddTask() {
   return (
     <>
      <ToastContainer/>
+     {!taskExist ? "There is no task present with this id" : 
       <Container className="col-lg-7">
-        <h1 className="mb-3">Add your Task</h1>
+        <h1 className="mb-3">Edit your Task</h1>
         <Form>
           <FormGroup>
             <Label for="exampleEmail">Task Title</Label>
@@ -83,8 +107,8 @@ function AddTask() {
           </FormGroup>
 
           <Container className="text-center">
-            <Button className="mx-1" color="success" onClick={handleAddTask}>
-              Add Task
+            <Button className="mx-1" color="success" onClick={handleEditTask}>
+              Edit Task
             </Button>
             <Button className="mx-1" color="warning" onClick={handleClear}>
               Clear
@@ -92,8 +116,9 @@ function AddTask() {
           </Container>
         </Form>
       </Container>
+      }
     </>
   );
 }
 
-export default AddTask;
+export default EditTask;
