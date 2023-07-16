@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from "react";
 import Task from './task'
+import Header from './Header';
 import axios from "axios";
 import {Container} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
@@ -36,6 +37,7 @@ function AllTasks()
     return(
         <>
          <ToastContainer/>
+         <Header title="Task Manager" />
         <h1 className="text-center mt-3">ALL Tasks</h1>
         <Container className="p-2">
         <div className="row">

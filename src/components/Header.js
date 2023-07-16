@@ -11,9 +11,8 @@ function Header({title})
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/addTask">Add Task</Nav.Link>
-              <Nav.Link href="/allTasks">All Task</Nav.Link>             
+            <Nav.Link href="/addTask" className=''>Add Task</Nav.Link>   
+              <Nav.Link href="/" className='' >All Tasks</Nav.Link>     
             </Nav>
           </Navbar.Collapse>
         </Container>

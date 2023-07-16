@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
+import Header from './Header';
 import { Form, Label, FormGroup, Input, Button, Container } from 'reactstrap'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
+
+
 const queryParameters = new URLSearchParams(window.location.search);
 const id = queryParameters.get("id");
 function EditTask() {
@@ -10,6 +14,7 @@ const navigate = useNavigate(); // React Router's useNavigate hook
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [taskExist , setTaskExist] = useState(false);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   
   useEffect(()=>{
@@ -25,14 +30,15 @@ const navigate = useNavigate(); // React Router's useNavigate hook
             //   console.log(response.data[0]); // Make sure response.data is already a JSON object
             if(response.data.length>=1)
             {
-                setTitle(response.data[0].title);
-              setDesc(response.data[0].descr)
+              setTitle(response.data[0].title);
+              setDesc(response.data[0].descr);
               setTaskExist(true);
             }
-              
+            setLoading(false); // Update loading state when the response is received
             })
             .catch(error => {
               console.error(error);
+              setLoading(false); // Update loading state when an error occurs
             })
   },[])
 
@@ -63,7 +69,7 @@ const navigate = useNavigate(); // React Router's useNavigate hook
         toast.success("Task Edited Successfully!!");
         //  Delay the redirect by 2 seconds
          setTimeout(() => {
-            navigate(`/allTasks`); // Redirect to the desired path
+            navigate(`/`); // Redirect to the desired path
           }, 2000);
       })
       .catch(error => {
@@ -80,6 +86,11 @@ const navigate = useNavigate(); // React Router's useNavigate hook
   return (
     <>
      <ToastContainer/>
+     <Header title="Task Manager" />
+     {loading ? (
+        <p>Loading...</p> // Render a loading indicator while waiting for the response
+      ) : (
+     <>
      {!taskExist ? "There is no task present with this id" : 
       <Container className="col-lg-7">
         <h1 className="mb-3">Edit your Task</h1>
@@ -117,6 +128,8 @@ const navigate = useNavigate(); // React Router's useNavigate hook
         </Form>
       </Container>
       }
+      </>
+      )}
     </>
   );
 }

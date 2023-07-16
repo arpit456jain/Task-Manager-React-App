@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Label, FormGroup, Input, Button, Container } from 'reactstrap'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
+import Header from './Header';
 import { useNavigate } from 'react-router-dom';
 
 function AddTask() {
@@ -57,6 +58,7 @@ function AddTask() {
   return (
     <>
      <ToastContainer/>
+     <Header title="Task Manager" />
       <Container className="col-lg-7">
         <h1 className="mb-3">Add your Task</h1>
         <Form>
