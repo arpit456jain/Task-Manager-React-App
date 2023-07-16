@@ -6,6 +6,7 @@ import AddTask from './components/AddTask';
 import EditTask from './components/Edit';
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom';
 import './style.css';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/edit" element={<EditTask/>} exact/>
        </Routes>
       </Router>
+      <Footer></Footer>
     </>
   );
 }
