@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, Label, FormGroup, Input, Button, Container } from 'reactstrap'
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 function AddTask() {
   const [title, setTitle] = useState("");
@@ -28,7 +29,7 @@ function AddTask() {
     axios.post(url, JSON.stringify(payload))
       .then(response => {
         console.log(response); // Make sure response.data is already a JSON object
-
+        toast.success("Task Added Successfully!!")
       })
       .catch(error => {
         console.error(error);
@@ -48,7 +49,9 @@ function AddTask() {
 
   return (
     <>
-      <Container>
+     <ToastContainer/>
+      <Container className="col-lg-7">
+        <h1 className="mb-3">Add your Task</h1>
         <Form>
           <FormGroup>
             <Label for="exampleEmail">Task Title</Label>
