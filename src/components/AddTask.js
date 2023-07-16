@@ -22,6 +22,11 @@ function AddTask() {
     // Send the data to the database or perform further actions
     console.log("Title:", title);
     console.log("Description:", desc);
+    if(title==="" || desc === "")
+    {
+        toast.error("Fields can't be empty");
+        return
+    }
     const url = `https://8tdgrcf0cc.execute-api.ap-south-1.amazonaws.com/default/z-alpha_api`
   
 
@@ -35,7 +40,7 @@ function AddTask() {
         console.log(response); // Make sure response.data is already a JSON object
          // Delay the redirect by 2 seconds
          setTimeout(() => {
-          navigate(`/allTasks`); // Redirect to the desired path
+          navigate(`/`); // Redirect to the desired path
         }, 2000);
         toast.success("Task Added Successfully!!")
       })
@@ -70,6 +75,7 @@ function AddTask() {
               type="text"
               value={title}
               onChange={handleTitleChange}
+              required
             />
           </FormGroup>
 
@@ -81,14 +87,15 @@ function AddTask() {
               type="textarea"
               value={desc}
               onChange={handleDescChange}
+              required
             />
           </FormGroup>
 
           <Container className="text-center">
-            <Button className="mx-1" color="success" onClick={handleAddTask}>
+            <Button className="add"  onClick={handleAddTask}>
               Add Task
             </Button>
-            <Button className="mx-1" color="warning" onClick={handleClear}>
+            <Button className="edit-task" onClick={handleClear}>
               Clear
             </Button>
           </Container>

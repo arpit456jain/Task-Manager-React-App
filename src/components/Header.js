@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 function Header({title})
 {
     return(
-        <Navbar expand="lg" className="bg-dark navbar-dark">
+        <Navbar expand="lg" className="navbar navbar-expand-lg navbar-dark">
         <Container>
           <Navbar.Brand href="#home">{title}</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

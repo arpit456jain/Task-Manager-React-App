@@ -39,7 +39,7 @@ function AllTasks()
          <ToastContainer/>
          <Header title="Task Manager" />
         <h1 className="text-center mt-3">ALL Tasks</h1>
-        <Container className="p-2">
+        <Container className="">
         <div className="row">
         {
             allTasks.length > 0 ?(
