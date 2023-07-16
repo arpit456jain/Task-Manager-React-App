@@ -3,14 +3,21 @@ import Task from './task'
 import axios from "axios";
 import {Container} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
+
 function AllTasks()
 {
     const [allTasks , SetAllTask] = useState([
     ])
 
     useEffect(() => {
+        FetchData();
+        toast.success("All Tasks Fetched successfully!!")
+      },[]);
+
+
+      function FetchData(){
         const url = `https://8tdgrcf0cc.execute-api.ap-south-1.amazonaws.com/default/z-alpha_api`
-  
+      
         const payload = {
           "queryload" : `select * from arpit_testing.task_manager;`
           } 
@@ -19,13 +26,12 @@ function AllTasks()
             .then(response => {
               console.log(response.data); // Make sure response.data is already a JSON object
               SetAllTask(response.data);
-              toast.success("All Tasks Fetched successfully!!")
             })
             .catch(error => {
               console.error(error);
             })
       
-      },[]);
+    }
     
     return(
         <>
@@ -37,7 +43,8 @@ function AllTasks()
             allTasks.length > 0 ?(
                 allTasks.map((item,index)=>(
                     <div className="col-lg-4">
-                    <Task key={index} task={item}></Task>
+                        
+                    <Task key={item.id} task={item} FetchData={FetchData}></Task>
                     </div>
             ))
             ) : ("no")
