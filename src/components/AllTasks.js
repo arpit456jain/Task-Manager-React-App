@@ -1,23 +1,57 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import Task from './task'
+import axios from "axios";
+import {Container} from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+
 function AllTasks()
 {
     const [allTasks , SetAllTask] = useState([
-        {title : "first",desc:"first task"},
-        {title : "second",desc:"second task"},
-        {title : "third",desc:"third task"}
     ])
+
+    useEffect(() => {
+        FetchData();
+        toast.success("All Tasks Fetched successfully!!")
+      },[]);
+
+
+      function FetchData(){
+        const url = `https://8tdgrcf0cc.execute-api.ap-south-1.amazonaws.com/default/z-alpha_api`
+      
+        const payload = {
+          "queryload" : `select * from arpit_testing.task_manager;`
+          } 
+          
+          axios.post(url, JSON.stringify(payload))
+            .then(response => {
+              console.log(response.data); // Make sure response.data is already a JSON object
+              SetAllTask(response.data);
+            })
+            .catch(error => {
+              console.error(error);
+            })
+      
+    }
+    
     return(
         <>
-        <h1>This is ALl Tasks</h1>
+         <ToastContainer/>
+        <h1 className="text-center mt-3">ALL Tasks</h1>
+        <Container className="p-2">
+        <div className="row">
         {
             allTasks.length > 0 ?(
                 allTasks.map((item,index)=>(
-                    <Task key={index} task={item}></Task>
+                    <div className="col-lg-4">
+                        
+                    <Task key={item.id} task={item} FetchData={FetchData}></Task>
+                    </div>
             ))
             ) : ("no")
         }
-    
+        </div>
+
+    </Container>
         </>
     );
 }
