@@ -34,7 +34,7 @@ function Task({ task, FetchData }) {
   return (
     <>
       <ToastContainer />
-      <Card className="my-2">
+      <Card className="my-2 card-color">
         <CardBody>
           <CardTitle tag="h5">{task.title}</CardTitle>
           <CardText>{task.descr}</CardText>
