@@ -4,11 +4,7 @@ function Task({task})
 {
     return(
         <>
-<Card
-  style={{
-    width: '18rem'
-  }}
->   
+<Card className="my-2">   
   <CardBody>
     <CardTitle tag="h5">
       {task.title}
