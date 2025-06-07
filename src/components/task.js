@@ -12,17 +12,8 @@ function Task({ task, FetchData }) {
   }
 
   function HandleDelete(id) {
-    console.log("delete is clicked", id);
-    const url = `https://8tdgrcf0cc.execute-api.ap-south-1.amazonaws.com/default/z-alpha_api`;
-
-    const payload = {
-      queryload: `delete from arpit_testing.task_manager where id=${id};`,
-    };
-
-    axios
-      .post(url, JSON.stringify(payload))
-      .then((response) => {
-        console.log(response); // Make sure response.data is already a JSON object
+    const url = `https://111arpit1.pythonanywhere.com/taskManager/deleteTask/${id}`;
+    axios.delete(url).then((response) => {
         FetchData();
         toast.success("Task Deleted Successfully!!");
       })
@@ -34,14 +25,15 @@ function Task({ task, FetchData }) {
   return (
     <>
       <ToastContainer />
+      
       <Card className="my-2 card-color">
         <CardBody>
-          <CardTitle tag="h5">{task.title}</CardTitle>
-          <CardText>{task.descr}</CardText>
-          <Button color="warning" style={{ margin: "5px" }} onClick={()=>HandleEditTask(task.id)}>
+          <CardTitle tag="h5">{task.task_title}</CardTitle>
+          <CardText>{task.task_description}</CardText>
+          <Button color="warning" style={{ margin: "5px" }} onClick={()=>HandleEditTask(task.task_id)}>
             Edit
           </Button>
-          <Button color="danger" onClick={() => HandleDelete(task.id)}>
+          <Button color="danger" onClick={() => HandleDelete(task.task_id)}>
             Delete
           </Button>
         </CardBody>
