@@ -1,57 +1,55 @@
-import React, { useEffect, useState } from "react";
-import Header from './Header';
+import { useEffect, useState } from "react";
 import { Form, Label, FormGroup, Input, Button, Container } from 'reactstrap'
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
+import CloseButton from "./CloseButton"
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 
-function EditTask() {
-const navigate = useNavigate(); // React Router's useNavigate hook
+function EditTask({setDisplay,task,FetchData}) {
+  const [id,setId] = useState(null);
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   
-
+  useEffect(() => {
+    if (task) {
+      setTitle(task.task_title);
+      setDesc(task.task_description);
+      setId(task.task_id)
+    }
+  }, [task]);
   
-  useEffect(()=>{
-    const queryParameters_new = new URLSearchParams(window.location.search);
-    const task_id = queryParameters_new.get("id");
-    const url = `https://111arpit1.pythonanywhere.com/taskManager/task/${task_id}`
-          axios.get(url).then(response => { 
-            console.log("id exists",response)
-            setDesc(response.data.task_description)
-            setTitle(response.data.task_title)
-            })
-            .catch(error => {
-              console.error(error);
+  // useEffect(()=>{
+  //   const task_id = task.task_id
+  //   const url = `https://111arpit1.pythonanywhere.com/taskManager/task/${task_id}`
+  //         axios.get(url).then(response => { 
+  //           console.log("id exists",response)
+  //           setDesc(response.data.task_description)
+  //           setTitle(response.data.task_title)
+  //           })
+  //           .catch(error => {
+  //             console.error(error);
               
-            })
-  },[])
+  //           })
+  // },[])
 
 
  
  
 
   const handleEditTask = () => {
-    // Send the data to the database or perform further actions
-    const queryParameters_new = new URLSearchParams(window.location.search);
-    const id_from_url = queryParameters_new.get("id");
+    console.log("save",task)
     const url = `https://111arpit1.pythonanywhere.com/taskManager/saveTask`
-  
-
-  const body = {
-    "task_id" : id_from_url, 
-    "task_title": title,
-    "task_description": desc
-    }
+    const body = {
+      "task_id" : id, 
+      "task_title": title,
+      "task_description": desc
+      }
+      console.log("body",body)
     axios.put(url, body)
       .then(response => {
-        
+        setDisplay(null)
+        FetchData()
         toast.success("Task Edited Successfully!!");
-        //  Delay the redirect by 2 seconds
-         setTimeout(() => {
-            navigate(`/`); 
-          }, 2000);
       })
       .catch(error => {
         console.error(error);
@@ -59,17 +57,15 @@ const navigate = useNavigate(); // React Router's useNavigate hook
   };
 
   const handleClear = () => {
-    // Clear the form inputs
     setTitle("");
     setDesc("");
   };
 
   return (
     <>
-     <ToastContainer/>
-     <Header title="Task Manager" />
-      <Container className="col-lg-7">
-        <h1 className="mb-3">Edit your Task</h1>
+      <Container className="col-lg-7 position-relative modal-bg">
+        <CloseButton setDisplay={setDisplay}/>
+        <h1 className="mb-1">Edit your Task</h1>
         <Form>
           <FormGroup>
             <Label for="exampleEmail">Task Title</Label>
@@ -95,7 +91,7 @@ const navigate = useNavigate(); // React Router's useNavigate hook
 
           <Container className="text-center">
             <Button className="mx-1" color="success" onClick={handleEditTask}>
-              Edit Task
+              Save
             </Button>
             <Button className="mx-1" color="warning" onClick={handleClear}>
               Clear
