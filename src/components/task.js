@@ -1,7 +1,7 @@
-import React from "react";
+
 import { Card, CardBody, CardTitle, CardText, Button } from "reactstrap";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 
 function Task({ task, FetchData ,setDisplay,setSelectedTask}) {
