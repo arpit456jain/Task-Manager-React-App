@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form, Label, FormGroup, Input, Button, Container } from 'reactstrap'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import axios from 'axios';
-import Header from './Header';
-import { useNavigate } from 'react-router-dom';
+import CloseButton from "./CloseButton"
 
-function AddTask() {
-  const navigate = useNavigate(); // React Router's useNavigate hook
+
+
+function AddTask({setDisplay,FetchData}) {
+
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
 
@@ -27,35 +28,23 @@ function AddTask() {
         toast.error("Fields can't be empty");
         return
     }
-    const url = `https://8tdgrcf0cc.execute-api.ap-south-1.amazonaws.com/default/z-alpha_api`
-  
-
-  const payload = {
-    "queryload" : `INSERT into arpit_testing.task_manager (title,descr) values('${title}','${desc}')`
-    } 
-    
-
-    axios.post(url, JSON.stringify(payload))
+    const url = `https://111arpit1.pythonanywhere.com/taskManager/saveTask`
+    const body = { 
+      "task_title": title,
+      "task_description": desc
+      }
+    axios.post(url,body)
       .then(response => {
-        console.log(response); // Make sure response.data is already a JSON object
-         // Delay the redirect by 2 seconds
-         setTimeout(() => {
-          navigate(`/`); // Redirect to the desired path
-        }, 2000);
+        setDisplay(null); 
         toast.success("Task Added Successfully!!")
+        FetchData();
       })
       .catch(error => {
         console.error(error);
       })
-
-
-    // Reset the form after adding the task
-    setTitle("");
-    setDesc("");
   };
 
   const handleClear = () => {
-    // Clear the form inputs
     setTitle("");
     setDesc("");
   };
@@ -64,9 +53,12 @@ function AddTask() {
     <>
      
      
-      <Container className="col-lg-7">
+      <Container className="col-lg-7 position-relative modal-bg">
+        <CloseButton setDisplay={setDisplay}/>
         <h1 className="mb-3">Add your Task</h1>
+        
         <Form>
+          
           <FormGroup>
             <Label for="exampleEmail">Task Title</Label>
             <Input

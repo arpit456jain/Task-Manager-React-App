@@ -6,16 +6,15 @@
 
 body{
     height: 100%;
-    background-color: rgb(10, 16, 37);
+    background-color: rgb(16, 25, 59);
     box-sizing: border-box;
 }
 
 h1 {
 	color: #fff;
-	font-size: 3rem;
-	font-weight: 50;
+	font-size: 2rem;
+	font-weight: 40;
 	text-align: center;
-	margin: 1rem 0 3rem; 
 	font-family: 'Hind', sans-serif;
 }
 
@@ -44,7 +43,7 @@ h1 {
 .add{
 	outline: none;
     border: none;
-    height: 50px;
+    height: 40px;
     border-radius: 25px;
     background-color: lime;
     color: white;
@@ -56,7 +55,7 @@ h1 {
 .edit-task{
 	outline: none;
     border: none;
-    height: 50px;
+    height: 40px;
     border-radius: 25px;
     background-color: rgb(221, 155, 23);
     color: white;
@@ -101,7 +100,7 @@ h1 {
 	outline: none;
 	border: none;
 	color: rgb(208, 228, 33);
-	font-size: 1.4rem;
+	font-size: 1.42rem;
 	font-family: 'Hind', sans-serif;
 	cursor: pointer;
 }
@@ -122,4 +121,11 @@ label
 .card-color
 {
 	background-color: #a5b3e4;
+}
+
+.modal-bg
+{
+	 background-color: #1c2753;
+	 padding: 10px;
+	 border-radius: 4%;
 }

@@ -3,14 +3,16 @@ import Task from './task'
 import Header from './Header';
 import axios from "axios";
 import {Container} from 'react-bootstrap';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 import AddTask from "./AddTask";
 import EditTask from "./Edit";
+import Footer from "./Footer";
 
 function AllTasks()
 {
     const [allTasks , SetAllTask] = useState([])
     const [display ,setDisplay] = useState(null);
+    const [selectedTask, setSelectedTask] = useState(null); // for edit
 
     useEffect(() => {
         FetchData();
@@ -22,7 +24,6 @@ function AllTasks()
           axios.get(url)
             .then(response => {
               SetAllTask(response.data);
-              toast.success("All Tasks Fetched successfully1!!")
             })
             .catch(error => {
               console.error(error);
@@ -32,9 +33,12 @@ function AllTasks()
     
     return(
         <>
-         { display === 'add' ? <AddTask/>
-          : display === 'edit' ? <EditTask/> : ""
-         }
+        <ToastContainer/>
+        <Header setDisplay={setDisplay} title="TaskManager"/>
+        <div>
+          {display === 'add' ? <AddTask setDisplay={setDisplay} FetchData={FetchData}/> : display === 'edit' ? <EditTask setDisplay={setDisplay} FetchData={FetchData} task={selectedTask} /> : ""}
+        </div>
+         
         <h1 className="text-center mt-3">ALL Tasks</h1>
         <Container className="">
         <div className="row">
@@ -42,7 +46,7 @@ function AllTasks()
             allTasks?.length > 0 ?(
                 allTasks?.map((item,index)=>(
                     <div className="col-lg-4">  
-                      <Task key={item.id} task={item} FetchData={FetchData}></Task>
+                      <Task setDisplay={setDisplay} setSelectedTask={setSelectedTask} key={item.id} task={item} FetchData={FetchData}></Task>
                     </div>
             ))
             ) : (<h1>No Tasks yet , please add a new one...</h1>)
@@ -50,6 +54,8 @@ function AllTasks()
         </div>
 
     </Container>
+
+    <Footer display={display}/>
         </>
     );
 }

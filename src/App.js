@@ -14,8 +14,6 @@ function App() {
       <Router>
       <Routes>
         <Route path="/" element={<AllTasks/>} exact />
-        <Route path="/addTask" element={<AddTask/>} exact/>
-        <Route path="/edit" element={<EditTask/>} exact/>
        </Routes>
       </Router>
     </>
