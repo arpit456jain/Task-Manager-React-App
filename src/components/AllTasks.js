@@ -39,17 +39,21 @@ function AllTasks()
           {display === 'add' ? <AddTask setDisplay={setDisplay} FetchData={FetchData}/> : display === 'edit' ? <EditTask setDisplay={setDisplay} FetchData={FetchData} task={selectedTask} /> : ""}
         </div>
          
-        <h1 className="text-center mt-3">ALL Tasks</h1>
+        
         <Container className="">
         <div className="row">
         {
-            allTasks?.length > 0 ?(
-                allTasks?.map((item,index)=>(
+            allTasks?.length > 0 ? <>
+            <h1 className="text-center mt-3">ALL Tasks</h1>
+            {
+              allTasks?.map((item,index)=>(
                     <div className="col-lg-4">  
                       <Task setDisplay={setDisplay} setSelectedTask={setSelectedTask} key={item.id} task={item} FetchData={FetchData}></Task>
                     </div>
             ))
-            ) : (<h1>No Tasks yet , please add a new one...</h1>)
+            }
+
+             </> : (<h1>No Tasks yet , please add a new one...</h1>)
         }
         </div>
 
