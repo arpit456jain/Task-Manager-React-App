@@ -62,8 +62,8 @@ function AddTask() {
 
   return (
     <>
-     <ToastContainer/>
-     <Header title="Task Manager" />
+     
+     
       <Container className="col-lg-7">
         <h1 className="mb-3">Add your Task</h1>
         <Form>

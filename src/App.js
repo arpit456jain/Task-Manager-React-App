@@ -18,7 +18,6 @@ function App() {
         <Route path="/edit" element={<EditTask/>} exact/>
        </Routes>
       </Router>
-      <Footer></Footer>
     </>
   );
 }

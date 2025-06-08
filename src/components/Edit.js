@@ -66,8 +66,6 @@ const navigate = useNavigate(); // React Router's useNavigate hook
 
   return (
     <>
-     <ToastContainer/>
-     <Header title="Task Manager" />
       <Container className="col-lg-7">
         <h1 className="mb-3">Edit your Task</h1>
         <Form>

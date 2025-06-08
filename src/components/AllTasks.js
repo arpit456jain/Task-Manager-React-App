@@ -4,10 +4,13 @@ import Header from './Header';
 import axios from "axios";
 import {Container} from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
+import AddTask from "./AddTask";
+import EditTask from "./Edit";
 
 function AllTasks()
 {
     const [allTasks , SetAllTask] = useState([])
+    const [display ,setDisplay] = useState(null);
 
     useEffect(() => {
         FetchData();
@@ -29,7 +32,9 @@ function AllTasks()
     
     return(
         <>
-         <Header title="Task Manager" />
+         { display === 'add' ? <AddTask/>
+          : display === 'edit' ? <EditTask/> : ""
+         }
         <h1 className="text-center mt-3">ALL Tasks</h1>
         <Container className="">
         <div className="row">
