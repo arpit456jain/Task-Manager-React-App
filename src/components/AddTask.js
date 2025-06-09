@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Form, Label, FormGroup, Input, Button, Container } from 'reactstrap'
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import CloseButton from "./CloseButton"
-
+import { addTask } from "../RestApis";
 
 
 function AddTask({setDisplay,FetchData}) {
@@ -11,29 +10,19 @@ function AddTask({setDisplay,FetchData}) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
 
-  const handleTitleChange = (event) => {
-    setTitle(event.target.value);
-  };
-
-  const handleDescChange = (event) => {
-    setDesc(event.target.value);
-  };
-
   const handleAddTask = () => {
-    // Send the data to the database or perform further actions
-    console.log("Title:", title);
-    console.log("Description:", desc);
+   
     if(title==="" || desc === "")
     {
         toast.error("Fields can't be empty");
         return
     }
-    const url = `https://111arpit1.pythonanywhere.com/taskManager/saveTask`
+    
     const body = { 
       "task_title": title,
       "task_description": desc
       }
-    axios.post(url,body)
+      addTask(body)
       .then(response => {
         setDisplay(null); 
         toast.success("Task Added Successfully!!")
@@ -47,6 +36,7 @@ function AddTask({setDisplay,FetchData}) {
   const handleClear = () => {
     setTitle("");
     setDesc("");
+    toast.success("Fields Cleared Successfully!!")
   };
 
   return (
@@ -60,25 +50,25 @@ function AddTask({setDisplay,FetchData}) {
         <Form>
           
           <FormGroup>
-            <Label for="exampleEmail">Task Title</Label>
+            <Label for="taskTitle">Task Title</Label>
             <Input
-              id="exampleEmail"
-              name="text"
+              id="taskTitle"
+              name="task_title"
               type="text"
               value={title}
-              onChange={handleTitleChange}
+              onChange={(e)=>(setTitle(e.target.value))}
               required
             />
           </FormGroup>
 
           <FormGroup>
-            <Label for="exampleText">Task Description</Label>
+            <Label for="taskDescription">Task Description</Label>
             <Input
-              id="exampleText"
-              name="text"
+              id="taskDescription"
+              name="task_description"
               type="textarea"
               value={desc}
-              onChange={handleDescChange}
+              onChange={(e)=>(setDesc(e.target.value))}
               required
             />
           </FormGroup>

@@ -1,12 +1,12 @@
-import React,{useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Task from './task'
 import Header from './Header';
-import axios from "axios";
 import {Container} from 'react-bootstrap';
 import { ToastContainer} from 'react-toastify';
 import AddTask from "./AddTask";
 import EditTask from "./Edit";
 import Footer from "./Footer";
+import {fetchAllTasks} from "../RestApis"
 
 function AllTasks()
 {
@@ -20,8 +20,7 @@ function AllTasks()
 
 
       function FetchData(){
-        const url = `https://111arpit1.pythonanywhere.com/taskManager/task`  
-          axios.get(url)
+        fetchAllTasks()
             .then(response => {
               SetAllTask(response.data);
             })
@@ -53,7 +52,9 @@ function AllTasks()
             ))
             }
 
-             </> : (<h1>No Tasks yet , please add a new one...</h1>)
+             </> : <>
+              <h1 style={{height:"22vh"}}>No Tasks yet , please add a new one...</h1>
+             </>
         }
         </div>
 

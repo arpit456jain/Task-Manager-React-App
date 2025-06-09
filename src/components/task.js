@@ -1,7 +1,7 @@
 
 import { Card, CardBody, CardTitle, CardText, Button } from "reactstrap";
-import axios from "axios";
 import { toast } from "react-toastify";
+import {deleteTask} from "../RestApis"
 
 
 function Task({ task, FetchData ,setDisplay,setSelectedTask}) {
@@ -12,8 +12,7 @@ function Task({ task, FetchData ,setDisplay,setSelectedTask}) {
   }
 
   function HandleDelete(id) {
-    const url = `https://111arpit1.pythonanywhere.com/taskManager/deleteTask/${id}`;
-    axios.delete(url).then((response) => {
+    deleteTask(id).then((response) => {
         FetchData();
         toast.success("Task Deleted Successfully!!");
       })

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Form, Label, FormGroup, Input, Button, Container } from 'reactstrap'
 import {toast } from 'react-toastify';
 import CloseButton from "./CloseButton"
-import axios from 'axios';
+import { editTask } from "../RestApis";
 
 
 function EditTask({setDisplay,task,FetchData}) {
@@ -18,35 +18,13 @@ function EditTask({setDisplay,task,FetchData}) {
     }
   }, [task]);
   
-  // useEffect(()=>{
-  //   const task_id = task.task_id
-  //   const url = `https://111arpit1.pythonanywhere.com/taskManager/task/${task_id}`
-  //         axios.get(url).then(response => { 
-  //           console.log("id exists",response)
-  //           setDesc(response.data.task_description)
-  //           setTitle(response.data.task_title)
-  //           })
-  //           .catch(error => {
-  //             console.error(error);
-              
-  //           })
-  // },[])
-
-
- 
- 
-
   const handleEditTask = () => {
-    console.log("save",task)
-    const url = `https://111arpit1.pythonanywhere.com/taskManager/saveTask`
     const body = {
       "task_id" : id, 
       "task_title": title,
       "task_description": desc
       }
-      console.log("body",body)
-    axios.put(url, body)
-      .then(response => {
+      editTask(body).then(response => {
         setDisplay(null)
         FetchData()
         toast.success("Task Edited Successfully!!");
@@ -59,33 +37,34 @@ function EditTask({setDisplay,task,FetchData}) {
   const handleClear = () => {
     setTitle("");
     setDesc("");
+    toast.success("Fields Cleared Successfully!!")
   };
 
-  return (
+return (
     <>
       <Container className="col-lg-7 position-relative modal-bg">
-        <CloseButton setDisplay={setDisplay}/>
+        <CloseButton setDisplay={setDisplay} />
         <h1 className="mb-1">Edit your Task</h1>
         <Form>
           <FormGroup>
-            <Label for="exampleEmail">Task Title</Label>
+            <Label for="taskTitle">Task Title</Label>
             <Input
-              id="exampleEmail"
-              name="text"
+              id="taskTitle"
+              name="task_title"
               type="text"
               value={title}
-              onChange={(e)=>(setTitle(e.target.value))}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </FormGroup>
 
           <FormGroup>
-            <Label for="exampleText">Task Description</Label>
+            <Label for="taskDescription">Task Description</Label>
             <Input
-              id="exampleText"
-              name="text"
+              id="taskDescription"
+              name="task_description"
               type="textarea"
               value={desc}
-              onChange={(e)=>(setDesc(e.target.value))}
+              onChange={(e) => setDesc(e.target.value)}
             />
           </FormGroup>
 
@@ -99,7 +78,7 @@ function EditTask({setDisplay,task,FetchData}) {
           </Container>
         </Form>
       </Container>
-      </>
+    </>
   );
 }
 
